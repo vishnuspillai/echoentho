@@ -1,131 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Neko Timer 🐱 | Pomodoro</title>
-  <meta name="description" content="A cute cat-themed Pomodoro timer to help you stay focused and productive" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neko Timer 🐱 | Pomodoro</title>
+    <meta name="description" content="A cute cat-themed Pomodoro timer to help you stay focused and productive" />
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#f472b6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Neko Timer" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <div class="bg-orbs">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
-
-  <main class="app mode-work" id="app">
-    <header class="app-header">
-      <h1>🐱 Neko Timer</h1>
-      <p>Stay focused with your cat companion</p>
-    </header>
-
-    <div class="mode-tabs" role="tablist">
-      <button id="tab-work"  class="mode-tab active" onclick="setMode('work')"  role="tab">🍅 Pomodoro</button>
-      <button id="tab-short" class="mode-tab"        onclick="setMode('short')" role="tab">☕ Short Break</button>
-      <button id="tab-long"  class="mode-tab"        onclick="setMode('long')"  role="tab">🌙 Long Break</button>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
 
-    <div class="timer-card glass">
-      <!-- Timer Ring -->
-      <div class="timer-ring-wrapper">
-        <svg class="timer-ring" viewBox="0 0 220 220">
-          <circle class="ring-track" cx="110" cy="110" r="95"/>
-          <circle class="ring-fill" id="ring-fill" cx="110" cy="110" r="95"/>
-        </svg>
-        <div class="timer-center">
-          <div class="time" id="time-display">25:00</div>
-          <div class="time-label" id="time-label">Focus Time</div>
+    <main class="app mode-work" id="app">
+        <header class="app-header">
+            <h1>🐱 Neko Timer</h1>
+            <p>Stay focused with your cat companion</p>
+        </header>
+
+        <div class="mode-tabs" role="tablist">
+            <button id="tab-work" class="mode-tab active" onclick="setMode('work')" role="tab">🍅 Pomodoro</button>
+            <button id="tab-short" class="mode-tab" onclick="setMode('short')" role="tab">☕ Short Break</button>
+            <button id="tab-long" class="mode-tab" onclick="setMode('long')" role="tab">🌙 Long Break</button>
         </div>
-      </div>
 
-      <!-- Cat -->
-      <div class="cat-stage">
-        <div class="cat-container" id="cat-container">
-          <svg class="cat-svg" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
-            <!-- Tail -->
-            <path class="cat-tail" d="M130,195 Q178,172 172,143 Q166,118 148,130" stroke="#fbbfca" stroke-width="14" fill="none" stroke-linecap="round"/>
-            <!-- Body -->
-            <ellipse cx="100" cy="178" rx="53" ry="46" fill="#fbbfca"/>
-            <!-- Left Ear -->
-            <polygon points="62,74 71,38 92,70" fill="#fbbfca"/>
-            <polygon points="66,70 73,50 88,69" fill="#f9a8b8"/>
-            <!-- Right Ear -->
-            <polygon points="108,70 129,38 138,74" fill="#fbbfca"/>
-            <polygon points="112,69 127,50 134,70" fill="#f9a8b8"/>
-            <!-- Head -->
-            <circle cx="100" cy="112" r="46" fill="#fbbfca"/>
-            <!-- Eyes Open -->
-            <g id="eyes-open">
-              <ellipse cx="83" cy="110" rx="9" ry="10" fill="#2d1b4e"/>
-              <ellipse cx="117" cy="110" rx="9" ry="10" fill="#2d1b4e"/>
-              <circle cx="86" cy="106" r="3.5" fill="white"/>
-              <circle cx="120" cy="106" r="3.5" fill="white"/>
-            </g>
-            <!-- Eyes Sleeping -->
-            <g id="eyes-sleeping" style="display:none">
-              <path d="M74,110 Q83,102 92,110" stroke="#2d1b4e" stroke-width="3" fill="none" stroke-linecap="round"/>
-              <path d="M108,110 Q117,102 126,110" stroke="#2d1b4e" stroke-width="3" fill="none" stroke-linecap="round"/>
-            </g>
-            <!-- Eyes Resting -->
-            <g id="eyes-resting" style="display:none">
-              <ellipse cx="83" cy="112" rx="9" ry="5" fill="#2d1b4e"/>
-              <ellipse cx="117" cy="112" rx="9" ry="5" fill="#2d1b4e"/>
-              <circle cx="86" cy="110" r="2" fill="white"/>
-              <circle cx="120" cy="110" r="2" fill="white"/>
-            </g>
-            <!-- Nose -->
-            <ellipse cx="100" cy="122" rx="4.5" ry="3.5" fill="#f472b6"/>
-            <!-- Mouth -->
-            <path d="M95,126 Q100,132 105,126" stroke="#f472b6" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <!-- Whiskers -->
-            <line x1="48" y1="118" x2="88" y2="121" stroke="#2d1b4e" stroke-width="1.5" opacity="0.3"/>
-            <line x1="48" y1="126" x2="88" y2="124" stroke="#2d1b4e" stroke-width="1.5" opacity="0.3"/>
-            <line x1="152" y1="118" x2="112" y2="121" stroke="#2d1b4e" stroke-width="1.5" opacity="0.3"/>
-            <line x1="152" y1="126" x2="112" y2="124" stroke="#2d1b4e" stroke-width="1.5" opacity="0.3"/>
-            <!-- Paws -->
-            <ellipse cx="76" cy="217" rx="22" ry="12" fill="#fbbfca"/>
-            <ellipse cx="124" cy="217" rx="22" ry="12" fill="#fbbfca"/>
-            <ellipse cx="66" cy="214" rx="7" ry="5" fill="#f9a8b8"/>
-            <ellipse cx="76" cy="211" rx="7" ry="5" fill="#f9a8b8"/>
-            <ellipse cx="86" cy="214" rx="7" ry="5" fill="#f9a8b8"/>
-            <ellipse cx="114" cy="214" rx="7" ry="5" fill="#f9a8b8"/>
-            <ellipse cx="124" cy="211" rx="7" ry="5" fill="#f9a8b8"/>
-            <ellipse cx="134" cy="214" rx="7" ry="5" fill="#f9a8b8"/>
-          </svg>
+        <div class="timer-card glass">
+            <!-- Timer Ring -->
+            <div class="timer-ring-wrapper">
+                <svg class="timer-ring" viewBox="0 0 220 220">
+                    <circle class="ring-track" cx="110" cy="110" r="95" />
+                    <circle class="ring-fill" id="ring-fill" cx="110" cy="110" r="95" />
+                </svg>
+                <div class="timer-center">
+                    <div class="time" id="time-display">25:00</div>
+                    <div class="time-label" id="time-label">Focus Time</div>
+                </div>
+            </div>
 
-          <div class="zzz" id="zzz">
-            <span class="z z1">z</span>
-            <span class="z z2">z</span>
-            <span class="z z3">Z</span>
-          </div>
-          <div class="sparkles" id="sparkles">
-            <span class="spark s1">✨</span>
-            <span class="spark s2">⭐</span>
-            <span class="spark s3">✨</span>
-          </div>
+            <!-- Cat -->
+            <div class="cat-stage">
+                <div class="cat-container" id="cat-container">
+                    <svg class="cat-svg" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Tail -->
+                        <path class="cat-tail" d="M130,195 Q178,172 172,143 Q166,118 148,130" stroke="#fbbfca"
+                            stroke-width="14" fill="none" stroke-linecap="round" />
+                        <!-- Body -->
+                        <ellipse cx="100" cy="178" rx="53" ry="46" fill="#fbbfca" />
+                        <!-- Left Ear -->
+                        <polygon points="62,74 71,38 92,70" fill="#fbbfca" />
+                        <polygon points="66,70 73,50 88,69" fill="#f9a8b8" />
+                        <!-- Right Ear -->
+                        <polygon points="108,70 129,38 138,74" fill="#fbbfca" />
+                        <polygon points="112,69 127,50 134,70" fill="#f9a8b8" />
+                        <!-- Head -->
+                        <circle cx="100" cy="112" r="46" fill="#fbbfca" />
+                        <!-- Eyes Open -->
+                        <g id="eyes-open">
+                            <ellipse cx="83" cy="110" rx="9" ry="10" fill="#2d1b4e" />
+                            <ellipse cx="117" cy="110" rx="9" ry="10" fill="#2d1b4e" />
+                            <circle cx="86" cy="106" r="3.5" fill="white" />
+                            <circle cx="120" cy="106" r="3.5" fill="white" />
+                        </g>
+                        <!-- Eyes Sleeping -->
+                        <g id="eyes-sleeping" style="display:none">
+                            <path d="M74,110 Q83,102 92,110" stroke="#2d1b4e" stroke-width="3" fill="none"
+                                stroke-linecap="round" />
+                            <path d="M108,110 Q117,102 126,110" stroke="#2d1b4e" stroke-width="3" fill="none"
+                                stroke-linecap="round" />
+                        </g>
+                        <!-- Eyes Resting -->
+                        <g id="eyes-resting" style="display:none">
+                            <ellipse cx="83" cy="112" rx="9" ry="5" fill="#2d1b4e" />
+                            <ellipse cx="117" cy="112" rx="9" ry="5" fill="#2d1b4e" />
+                            <circle cx="86" cy="110" r="2" fill="white" />
+                            <circle cx="120" cy="110" r="2" fill="white" />
+                        </g>
+                        <!-- Nose -->
+                        <ellipse cx="100" cy="122" rx="4.5" ry="3.5" fill="#f472b6" />
+                        <!-- Mouth -->
+                        <path d="M95,126 Q100,132 105,126" stroke="#f472b6" stroke-width="2" fill="none"
+                            stroke-linecap="round" />
+                        <!-- Whiskers -->
+                        <line x1="48" y1="118" x2="88" y2="121" stroke="#2d1b4e" stroke-width="1.5" opacity="0.3" />
+                        <line x1="48" y1="126" x2="88" y2="124" stroke="#2d1b4e" stroke-width="1.5" opacity="0.3" />
+                        <line x1="152" y1="118" x2="112" y2="121" stroke="#2d1b4e" stroke-width="1.5" opacity="0.3" />
+                        <line x1="152" y1="126" x2="112" y2="124" stroke="#2d1b4e" stroke-width="1.5" opacity="0.3" />
+                        <!-- Paws -->
+                        <ellipse cx="76" cy="217" rx="22" ry="12" fill="#fbbfca" />
+                        <ellipse cx="124" cy="217" rx="22" ry="12" fill="#fbbfca" />
+                        <ellipse cx="66" cy="214" rx="7" ry="5" fill="#f9a8b8" />
+                        <ellipse cx="76" cy="211" rx="7" ry="5" fill="#f9a8b8" />
+                        <ellipse cx="86" cy="214" rx="7" ry="5" fill="#f9a8b8" />
+                        <ellipse cx="114" cy="214" rx="7" ry="5" fill="#f9a8b8" />
+                        <ellipse cx="124" cy="211" rx="7" ry="5" fill="#f9a8b8" />
+                        <ellipse cx="134" cy="214" rx="7" ry="5" fill="#f9a8b8" />
+                    </svg>
+
+                    <div class="zzz" id="zzz">
+                        <span class="z z1">z</span>
+                        <span class="z z2">z</span>
+                        <span class="z z3">Z</span>
+                    </div>
+                    <div class="sparkles" id="sparkles">
+                        <span class="spark s1">✨</span>
+                        <span class="spark s2">⭐</span>
+                        <span class="spark s3">✨</span>
+                    </div>
+                </div>
+                <p class="cat-message" id="cat-message">Ready to focus? 🎯</p>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button class="btn-start" id="btn-start" onclick="toggleTimer()">
+                    <span id="btn-text">Start</span>
+                </button>
+                <button class="btn-reset" onclick="resetTimer()">↺ Reset</button>
+            </div>
         </div>
-        <p class="cat-message" id="cat-message">Ready to focus? 🎯</p>
-      </div>
 
-      <!-- Controls -->
-      <div class="controls">
-        <button class="btn-start" id="btn-start" onclick="toggleTimer()">
-          <span id="btn-text">Start</span>
-        </button>
-        <button class="btn-reset" onclick="resetTimer()">↺ Reset</button>
-      </div>
-    </div>
+        <!-- Sessions -->
+        <div class="sessions-tracker glass">
+            <span class="sessions-title">Today's Sessions</span>
+            <div class="paws-row" id="paws-row"></div>
+            <span class="sessions-count" id="sessions-count">0 sessions completed</span>
+        </div>
+    </main>
 
-    <!-- Sessions -->
-    <div class="sessions-tracker glass">
-      <span class="sessions-title">Today's Sessions</span>
-      <div class="paws-row" id="paws-row"></div>
-      <span class="sessions-count" id="sessions-count">0 sessions completed</span>
-    </div>
-  </main>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+                    .catch(err => console.log('❌ SW error:', err));
+            });
+        }
+    </script>
 </body>
+
 </html>
